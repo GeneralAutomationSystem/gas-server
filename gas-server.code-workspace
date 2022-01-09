@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "CosmosDbService"
+		},
+		{
+			"path": "WebApp"
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"ms-dotnettools.csharp",
+			"ms-vscode.vscode-node-azure-pack",
+			"visualstudioexptteam.vscodeintellicode",
+			"abusaidm.html-snippets",
+			"ecmel.vscode-html-css"
+		]
+	},
+	"settings": {
+		"omnisharp.defaultLaunchSolution": ""
+	}
+}
