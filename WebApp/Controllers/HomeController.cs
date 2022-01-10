@@ -1,31 +1,34 @@
 ﻿using System.Diagnostics;
+using Gas.CosmosDb;
+using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Models;
+using Microsoft.Azure.Cosmos;
 
-namespace WebApp.Controllers;
+namespace Gas.WebApp.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ILogger<HomeController> logger;
+    private readonly ICosmosDbService dbService;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ICosmosDbService dbService)
     {
-        _logger = logger;
+        this.logger = logger;
+        this.dbService = dbService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
+        var model = new BaseModel
+        {
+            UserDevices = (await dbService.ReadItemAsync<Models.User>("users", "pepa", new PartitionKey("pepa"))).Devices,
+        };
+        return View(model);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(new ErrorModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

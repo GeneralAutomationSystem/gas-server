@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Gas.WebApp.Models.BaseModel
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,25 +23,30 @@
                 <div class="collapse navbar-collapse" id="nav-items">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Status"
+                                asp-route-id="@Model.SelectedDevice?.Id">Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Schedule" asp-action="Index">Schedules</a>
+                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Schedule"
+                                asp-route-id="@Model.SelectedDevice?.Id">Schedules</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
+                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Settings"
+                                asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
                         </li>
                     </ul>
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    <div class="dropdown me-2">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deviceSelect"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown link
+                            @(Model.SelectedDevice?.Id == null ? "Devices" : Model.SelectedDevice.Name)
                         </a>
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="deviceSelect">
+                            @foreach (var device in Model.UserDevices)
+                            {
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Device" asp-action="Status"
+                                    asp-route-id="@device.Id">@device.Name</a></li>
+                            }
                         </ul>
                     </div>
                     <a class="btn btn-success" asp-area="" asp-controller="Home" asp-action="Index">Login</a>

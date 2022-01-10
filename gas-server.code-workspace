@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "WebApp"
+		},
+		{
+			"path": "Solution"
 		}
 	],
 	"extensions": {
