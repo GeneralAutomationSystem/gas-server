@@ -28,7 +28,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Schedule"
-                                asp-route-id="@Model.SelectedDevice?.Id">Schedules</a>
+                                asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Settings"
@@ -36,10 +36,10 @@
                         </li>
                     </ul>
                     <div class="dropdown me-2">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="deviceSelect"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle" id="deviceSelect" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             @(Model.SelectedDevice?.Id == null ? "Devices" : Model.SelectedDevice.Name)
-                        </a>
+                        </button>
 
                         <ul class="dropdown-menu" aria-labelledby="deviceSelect">
                             @foreach (var device in Model.UserDevices)

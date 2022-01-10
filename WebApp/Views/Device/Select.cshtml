@@ -17,18 +17,18 @@
 </head>
 
 <body>
-    <div class="container text-center">
-        <h3 class="h3">Please select your device.</h3>
+    <div class="container text-center border rounded my-5 py-5">
+        <h1 class="display-6 mb-3">Please select your device.</h1>
         <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            <button class="btn btn-secondary dropdown-toggle"id="dropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Devices
-            </a>
+            </button>
 
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var device in Model?.UserDevices)
                 {
-                    <li><a class="nav-link" asp-area="" asp-controller="Device" asp-action="Status"
+                    <li><a class="dropdown-item" asp-area="" asp-controller="Device" asp-action="Status"
                         asp-route-id="@device.Id">@device.Name</a></li>
                 }
             </ul>
