@@ -1,4 +1,4 @@
-using Gas.CosmosDb;
+using Gas.Services.CosmosDb;
 
 namespace Gas.WebApp.Models;
 

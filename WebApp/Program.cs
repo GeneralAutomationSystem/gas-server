@@ -1,4 +1,5 @@
-using Gas.CosmosDb;
+using Gas.Services.CosmosDb;
+using Gas.Services.Device;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddSingleton<ICosmosDbService>(new CosmosDbService(
     builder.Configuration.GetConnectionString("CosmosDb"),
     builder.Configuration.GetValue<string>("CosmosDb:DatabaseName"),
     (b) => b.AddContainer(builder.Configuration.GetValue<string>("CosmosDb:UserContainer"))));
+builder.Services.AddSingleton<IDeviceService>(new DeviceService(builder.Configuration.GetConnectionString("IotHub")));
+
 
 var app = builder.Build();
 

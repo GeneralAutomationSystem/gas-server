@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Gas.CosmosDb;
+using Gas.Services.CosmosDb;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;

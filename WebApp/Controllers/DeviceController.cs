@@ -1,5 +1,5 @@
-using System.Diagnostics;
-using Gas.CosmosDb;
+using Gas.Services.CosmosDb;
+using Gas.Services.Device;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -11,17 +11,18 @@ public class DeviceController : Controller
 {
     private readonly ILogger<DeviceController> logger;
     private readonly ICosmosDbService dbService;
+    private readonly IDeviceService deviceService;
 
-
-    public DeviceController(ILogger<DeviceController> logger, ICosmosDbService dbService)
+    public DeviceController(ILogger<DeviceController> logger, ICosmosDbService dbService, IDeviceService deviceService)
     {
         this.logger = logger;
         this.dbService = dbService;
+        this.deviceService = deviceService;
     }
 
-    private async Task<BaseModel> NewBaseModel(string userPrincipalName, string? selectedDeviceId)
+    private async Task<T> NewBaseModel<T>(string userPrincipalName, string? selectedDeviceId) where T : BaseModel, new()
     {
-        var model = new BaseModel
+        var model = new T()
         {
             UserDevices = (await dbService.ReadItemAsync<Models.User>("users", userPrincipalName, new PartitionKey(userPrincipalName))).Devices,
         };
@@ -32,7 +33,7 @@ public class DeviceController : Controller
     [HttpGet("Select")]
     public async Task<IActionResult> SelectAsync()
     {
-        var model = await NewBaseModel("pepa", null);
+        var model = await NewBaseModel<BaseModel>("pepa", null);
         return View(model);
     }
 
@@ -43,12 +44,14 @@ public class DeviceController : Controller
         {
             return RedirectToAction("Select");
         }
-        var model = await NewBaseModel("pepa", id);
+        var model = await NewBaseModel<DeviceStatusModel>("pepa", id);
 
         if (!model.UserDevices.Select(d => d.Id).Contains(id))
         {
             return RedirectToAction("Select");
         }
+
+        model.Twin = await deviceService.GetTwinAsync(id);
 
         return View(model);
     }
@@ -60,7 +63,7 @@ public class DeviceController : Controller
         {
             return RedirectToAction("Select");
         }
-        var model = await NewBaseModel("pepa", id);
+        var model = await NewBaseModel<BaseModel>("pepa", id);
 
         if (!model.UserDevices.Select(d => d.Id).Contains(id))
         {
@@ -77,7 +80,7 @@ public class DeviceController : Controller
         {
             return RedirectToAction("Select");
         }
-        var model = await NewBaseModel("pepa", id);
+        var model = await NewBaseModel<BaseModel>("pepa", id);
 
         if (!model.UserDevices.Select(d => d.Id).Contains(id))
         {
