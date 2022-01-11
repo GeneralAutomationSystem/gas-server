@@ -1,4 +1,4 @@
-namespace Gas.CosmosDb;
+namespace Gas.Services.CosmosDb;
 
 public class CosmosDbConfigurationBuilder : ICosmosDbConfigurationBuilder
 {

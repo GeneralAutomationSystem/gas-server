@@ -1,6 +1,6 @@
 using Microsoft.Azure.Cosmos;
 
-namespace Gas.CosmosDb;
+namespace Gas.Services.CosmosDb;
 
 public class CosmosDbConfiguration
 {
