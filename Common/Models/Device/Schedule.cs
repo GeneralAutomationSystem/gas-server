@@ -34,6 +34,7 @@ public class DeviceSchedule
 
         if (tempIntervals.Count == 0)
         {
+            Intervals = new();
             return;
         }
 
