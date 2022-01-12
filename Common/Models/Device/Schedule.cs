@@ -9,13 +9,14 @@ public class DeviceSchedule
     {
         if (Intervals.Count == 0)
         {
-            Intervals = new();
             return;
         }
 
         var tempIntervals = new List<Interval>();
         foreach (var interval in Intervals)
         {
+            interval.Trim(0, IntervalMax);
+
             if (interval.Size > 0)
             {
                 tempIntervals.Add(interval);
@@ -33,7 +34,6 @@ public class DeviceSchedule
 
         if (tempIntervals.Count == 0)
         {
-            Intervals = new();
             return;
         }
 

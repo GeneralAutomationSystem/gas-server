@@ -32,4 +32,25 @@ public class Interval
         };
     }
 
+    public void Trim(int min, int max)
+    {
+        Begin = TrimInt(Begin, min, max);
+        End = TrimInt(End, min, max);
+    }
+
+    private static int TrimInt(int x, int min, int max)
+    {
+        if (x < min)
+        {
+            return min;
+        }
+
+        if (max < x)
+        {
+            return max;
+        }
+
+        return x;
+    }
+
 }
