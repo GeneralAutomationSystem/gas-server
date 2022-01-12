@@ -7,18 +7,13 @@ using Newtonsoft.Json;
 
 namespace Gas.WebApp.Controllers;
 
-[Route("Device/Status")]
+[Route("Device/{id}/Status")]
 public class DeviceStatusController : BaseController
 {
     public DeviceStatusController(ILogger<DeviceStatusController> logger, ICosmosService dbService, IDeviceService deviceService) : base(logger, dbService, deviceService) { }
 
-    [HttpGet("{id?}")]
-    public async Task<IActionResult> IndexAsync(string? id)
+    public async Task<IActionResult> IndexAsync(string id)
     {
-        if (id == null)
-        {
-            return RedirectToAction("Index", "DeviceSelect");
-        }
         var model = await NewBaseModel<StatusModel>("pepa", id);
 
         if (!model.UserDevices.Select(d => d.Id).Contains(id))
@@ -29,5 +24,20 @@ public class DeviceStatusController : BaseController
         model.Twin = await deviceService.GetTwinAsync(id);
 
         return View(model);
+    }
+
+    [HttpGet("[action]")]
+    public async Task<IActionResult> DataAsync(string id)
+    {
+        var model = await NewBaseModel<StatusModel>("pepa", id);
+
+        if (!model.UserDevices.Select(d => d.Id).Contains(id))
+        {
+            return RedirectToAction("Index", "DeviceSelect");
+        }
+
+        model.Twin = "data";
+
+        return View("Index", model);
     }
 }

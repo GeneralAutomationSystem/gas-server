@@ -23,16 +23,19 @@
                 <div class="collapse navbar-collapse" id="nav-items">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="DeviceStatus" asp-action="Index"
-                                asp-route-id="@Model.SelectedDevice?.Id">Status</a>
+                            <a class="nav-link" asp-area=""
+                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceStatus")"
+                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="DeviceSchedule" asp-action="Index"
-                                asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
+                            <a class="nav-link" asp-area=""
+                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSchedule")"
+                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="DeviceSettings" asp-action="Index"
-                                asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
+                            <a class="nav-link" asp-area=""
+                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSettings")"
+                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
                         </li>
                     </ul>
                     <div class="dropdown me-2">

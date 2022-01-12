@@ -7,12 +7,11 @@ using Newtonsoft.Json;
 
 namespace Gas.WebApp.Controllers;
 
-[Route("Device/Select")]
+[Route("Device")]
 public class DeviceSelectController : BaseController
 {
     public DeviceSelectController(ILogger<DeviceSelectController> logger, ICosmosService dbService, IDeviceService deviceService) : base(logger, dbService, deviceService) { }
 
-    [HttpGet]
     public async Task<IActionResult> IndexAsync()
     {
         var model = await NewBaseModel<BaseModel>("pepa", null);

@@ -5,9 +5,8 @@
 
 <div class="text-center">
     <h1 class="display-4">Schedule</h1>
-    @using (Html.BeginForm("Schedule", "Device", FormMethod.Post, new { @id = Model.SelectedDevice.Id }))
-    {
-        @Html.TextAreaFor(m => m.Schedule)
+    <form method="post" asp-controller="DeviceSchedule" asp-action="Index" asp-route-id="@Model.SelectedDevice.Id">
+        <textarea class="form-control" name="schedule" rows="3"></textarea>
         <button type="submit" class="btn btn-primary mb-3">Submit</button>
-    }
+    </form>
 </div>
