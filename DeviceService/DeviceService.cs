@@ -1,6 +1,12 @@
 ﻿using Microsoft.Azure.Devices;
+using Newtonsoft.Json;
 
-namespace Gas.Services.Device;
+namespace Gas.Services.Devices;
+
+public enum DataType
+{
+    Tags, Desired, Reported
+}
 public class DeviceService : IDeviceService
 {
     private readonly RegistryManager registryManager;
@@ -13,5 +19,21 @@ public class DeviceService : IDeviceService
     {
         var twin = await registryManager.GetTwinAsync(deviceId);
         return twin?.ToJson();
+    }
+
+    public async Task UpdateTwinAsync<T>(string deviceId, DataType type, T data)
+    {
+        if (type == DataType.Reported)
+        {
+            return;
+        }
+
+        var dataString = JsonConvert.SerializeObject(data);
+        var typeString = type == DataType.Tags ? "tags" : "desired";
+
+        var twin = await registryManager.GetTwinAsync(deviceId);
+        var patch = $"{{ {typeString}: {{ schedule : {dataString} }} }}";
+
+        await registryManager.UpdateTwinAsync(twin.DeviceId, patch, twin.ETag);
     }
 }

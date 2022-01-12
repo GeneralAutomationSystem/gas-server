@@ -28,7 +28,7 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var device in Model?.UserDevices)
                 {
-                    <li><a class="dropdown-item" asp-area="" asp-controller="Device" asp-action="Status"
+                    <li><a class="dropdown-item" asp-area="" asp-controller="DeviceStatus" asp-action="Index"
                         asp-route-id="@device.Id">@device.Name</a></li>
                 }
             </ul>

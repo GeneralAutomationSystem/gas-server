@@ -1,12 +1,12 @@
 using Microsoft.Azure.Cosmos;
 
-namespace Gas.Services.CosmosDb;
+namespace Gas.Services.Cosmos;
 
-public class CosmosDbService : ICosmosDbService
+public class CosmosService : ICosmosService
 {
-    private readonly CosmosDbConfiguration databaseConfig;
+    private readonly CosmosConfiguration databaseConfig;
 
-    public CosmosDbService(string connectionString, string databaseName, Action<CosmosDbConfigurationBuilder> builderAction)
+    public CosmosService(string connectionString, string databaseName, Action<CosmosDbConfigurationBuilder> builderAction)
     {
         var builder = new CosmosDbConfigurationBuilder(connectionString, databaseName);
         builderAction(builder);

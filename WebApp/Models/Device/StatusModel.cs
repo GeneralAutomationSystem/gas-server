@@ -1,6 +1,6 @@
 namespace Gas.WebApp.Models;
 
-public class DeviceStatusModel : BaseModel
+public class StatusModel : BaseModel
 {
     public string? Twin { get; set; }
 }

@@ -23,15 +23,15 @@
                 <div class="collapse navbar-collapse" id="nav-items">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Status"
+                            <a class="nav-link" asp-area="" asp-controller="DeviceStatus" asp-action="Index"
                                 asp-route-id="@Model.SelectedDevice?.Id">Status</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Schedule"
+                            <a class="nav-link" asp-area="" asp-controller="DeviceSchedule" asp-action="Index"
                                 asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Device" asp-action="Settings"
+                            <a class="nav-link" asp-area="" asp-controller="DeviceSettings" asp-action="Index"
                                 asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
                         </li>
                     </ul>
@@ -44,7 +44,7 @@
                         <ul class="dropdown-menu" aria-labelledby="deviceSelect">
                             @foreach (var device in Model.UserDevices)
                             {
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Device" asp-action="Status"
+                                <li><a class="dropdown-item" asp-area="" asp-controller="DeviceStatus" asp-action="Index"
                                     asp-route-id="@device.Id">@device.Name</a></li>
                             }
                         </ul>

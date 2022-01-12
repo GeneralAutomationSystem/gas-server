@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosDbService", "..\CosmosDbService\CosmosDbService.csproj", "{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosService", "..\CosmosService\CosmosService.csproj", "{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "..\WebApp\WebApp.csproj", "{696533CC-BCEF-4F68-A3B6-E111CA18B992}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceService", "..\DeviceService\DeviceService.csproj", "{E2B4A7D6-F45E-44E5-A7D6-E799D5C8AA1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{CF72ADE3-E32C-460A-A8EC-01B82656381A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +32,9 @@ Global
 		{E2B4A7D6-F45E-44E5-A7D6-E799D5C8AA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2B4A7D6-F45E-44E5-A7D6-E799D5C8AA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2B4A7D6-F45E-44E5-A7D6-E799D5C8AA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

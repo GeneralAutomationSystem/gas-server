@@ -1,0 +1,13 @@
+@model Gas.WebApp.Models.ScheduleModel
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Schedule</h1>
+    @using (Html.BeginForm("Schedule", "Device", FormMethod.Post, new { @id = Model.SelectedDevice.Id }))
+    {
+        @Html.TextAreaFor(m => m.Schedule)
+        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    }
+</div>

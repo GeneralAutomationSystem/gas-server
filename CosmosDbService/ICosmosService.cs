@@ -1,7 +1,7 @@
 using Microsoft.Azure.Cosmos;
 
-namespace Gas.Services.CosmosDb;
-public interface ICosmosDbService
+namespace Gas.Services.Cosmos;
+public interface ICosmosService
 {
     Task<T> ReadItemAsync<T>(string containerKey, string itemId, PartitionKey partitionKey, CancellationToken cancelToken = default);
     Task<List<T>> ReadItemsAsync<T>(string containerKey, QueryDefinition query, CancellationToken cancelToken = default);

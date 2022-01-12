@@ -1,12 +1,23 @@
 {
 	"folders": [
 		{
-			"path": "CosmosDbService"
+			"name": "Common",
+			"path": "Common"
 		},
 		{
+			"name": "CosmosService",
+			"path": "CosmosService"
+		},
+		{
+			"name": "DeviceService",
+			"path": "DeviceService"
+		},
+		{
+			"name": "WebApp",
 			"path": "WebApp"
 		},
 		{
+			"name": "Solution",
 			"path": "Solution"
 		}
 	],

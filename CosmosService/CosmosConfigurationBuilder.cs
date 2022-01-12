@@ -1,15 +1,15 @@
-namespace Gas.Services.CosmosDb;
+namespace Gas.Services.Cosmos;
 
-public class CosmosDbConfigurationBuilder : ICosmosDbConfigurationBuilder
+public class CosmosDbConfigurationBuilder : ICosmosConfigurationBuilder
 {
-    private readonly CosmosDbConfiguration databaseConfig;
+    private readonly CosmosConfiguration databaseConfig;
 
     public CosmosDbConfigurationBuilder(string connectionString, string databaseName)
     {
-        databaseConfig = new CosmosDbConfiguration(connectionString, databaseName);
+        databaseConfig = new CosmosConfiguration(connectionString, databaseName);
     }
 
-    public ICosmosDbConfigurationBuilder AddContainer(string containerName, string? containerKey = null)
+    public ICosmosConfigurationBuilder AddContainer(string containerName, string? containerKey = null)
     {
         if (containerKey == null)
         {
@@ -19,7 +19,7 @@ public class CosmosDbConfigurationBuilder : ICosmosDbConfigurationBuilder
         return this;
     }
 
-    public CosmosDbConfiguration Build()
+    public CosmosConfiguration Build()
     {
         return databaseConfig;
     }

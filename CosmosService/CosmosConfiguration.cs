@@ -1,15 +1,15 @@
 using Microsoft.Azure.Cosmos;
 
-namespace Gas.Services.CosmosDb;
+namespace Gas.Services.Cosmos;
 
-public class CosmosDbConfiguration
+public class CosmosConfiguration
 {
     public string ConnectionString;
     public string DatabaseName;
     public CosmosClient Client;
     public Dictionary<string, Container> Containers = new();
 
-    public CosmosDbConfiguration(string connectionString, string databaseName)
+    public CosmosConfiguration(string connectionString, string databaseName)
     {
         if (string.IsNullOrWhiteSpace(connectionString))
         {

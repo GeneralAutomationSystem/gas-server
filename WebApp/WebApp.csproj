@@ -11,12 +11,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CosmosDbService\CosmosDbService.csproj" />
+    <ProjectReference Include="..\CosmosService\CosmosService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DeviceService\DeviceService.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.36.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
-using Gas.Services.CosmosDb;
-using Gas.Services.Device;
+using Gas.Services.Cosmos;
+using Gas.Services.Devices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("local.settings.json", false, true);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ICosmosDbService>(new CosmosDbService(
+builder.Services.AddSingleton<ICosmosService>(new CosmosService(
     builder.Configuration.GetConnectionString("CosmosDb"),
     builder.Configuration.GetValue<string>("CosmosDb:DatabaseName"),
     (b) => b.AddContainer(builder.Configuration.GetValue<string>("CosmosDb:UserContainer"))));
