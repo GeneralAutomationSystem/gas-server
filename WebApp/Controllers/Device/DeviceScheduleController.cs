@@ -37,12 +37,13 @@ public class DeviceScheduleController : BaseController
         }
 
         var schedule = JsonSerializer.Deserialize<DeviceSchedule>(model.Schedule, Globals.Json.Options);
+
         if (schedule == null)
         {
             return RedirectToAction("Index");
         }
         schedule.Transform();
-        await deviceService.UpdateTwinAsync(id, DataType.Tags, schedule);
+        await deviceService.UpdateTwinAsync(id, DataType.Desired, schedule, "schedule");
 
         return RedirectToAction("Index");
     }

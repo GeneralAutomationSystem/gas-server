@@ -1,9 +1,7 @@
-using Gas.Common.Models.Device;
 using Gas.Services.Cosmos;
 using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Gas.WebApp.Controllers;
 

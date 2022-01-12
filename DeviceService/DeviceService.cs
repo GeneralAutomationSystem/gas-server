@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Gas.Globals;
 using Microsoft.Azure.Devices;
-
+using Microsoft.Azure.Devices.Shared;
 
 namespace Gas.Services.Devices;
 
@@ -23,19 +23,27 @@ public class DeviceService : IDeviceService
         return twin?.ToJson();
     }
 
-    public async Task UpdateTwinAsync<T>(string deviceId, DataType type, T data)
+    public async Task UpdateTwinAsync<T>(string deviceId, DataType type, T data, string objName)
     {
         if (type == DataType.Reported)
         {
             return;
         }
 
-        var dataString = JsonSerializer.Serialize(data, Json.Options);
-        var typeString = type == DataType.Tags ? "tags" : "desired";
+
+        var patch = new Twin();
+        var twinData = new TwinCollection(JsonSerializer.Serialize(data, Json.Options));
+
+        if (type == DataType.Tags)
+        {
+            patch.Tags[objName] = twinData;
+        }
+        else if (type == DataType.Desired)
+        {
+            patch.Properties.Desired[objName] = twinData;
+        }
 
         var twin = await registryManager.GetTwinAsync(deviceId);
-        var patch = $"{{ {typeString}: {{ schedule : {dataString} }} }}";
-
         await registryManager.UpdateTwinAsync(twin.DeviceId, patch, twin.ETag);
     }
 }
