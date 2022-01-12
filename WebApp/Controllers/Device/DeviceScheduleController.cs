@@ -1,9 +1,9 @@
+using System.Text.Json;
 using Gas.Common.Models.Device;
 using Gas.Services.Cosmos;
 using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Gas.WebApp.Controllers;
 
@@ -31,7 +31,12 @@ public class DeviceScheduleController : BaseController
     [HttpPost]
     public async Task<IActionResult> IndexAsync(string id, ScheduleModel model)
     {
-        var schedule = JsonConvert.DeserializeObject<DeviceSchedule>(model.Schedule);
+        if (model.Schedule == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        var schedule = JsonSerializer.Deserialize<DeviceSchedule>(model.Schedule, Globals.Json.Options);
         if (schedule == null)
         {
             return RedirectToAction("Index");

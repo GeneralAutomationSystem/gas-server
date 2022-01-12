@@ -16,7 +16,7 @@ public class DeviceStatusController : BaseController
     {
         var model = await NewBaseModel<StatusModel>("pepa", id);
 
-        if (!model.UserDevices.Select(d => d.Id).Contains(id))
+        if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(id))
         {
             return RedirectToAction("Index", "DeviceSelect");
         }
@@ -31,7 +31,7 @@ public class DeviceStatusController : BaseController
     {
         var model = await NewBaseModel<StatusModel>("pepa", id);
 
-        if (!model.UserDevices.Select(d => d.Id).Contains(id))
+        if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(id))
         {
             return RedirectToAction("Index", "DeviceSelect");
         }

@@ -32,11 +32,11 @@
                                 asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSchedule")"
                                 asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
                         </li>
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link" asp-area=""
-                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSettings")"
-                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
-                        </li>
+                            asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSettings")"
+                            asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
+                            </li> *@
                     </ul>
                     <div class="dropdown me-2">
                         <button class="btn btn-secondary dropdown-toggle" id="deviceSelect" data-bs-toggle="dropdown"

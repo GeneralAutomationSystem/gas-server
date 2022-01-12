@@ -1,5 +1,7 @@
-﻿using Microsoft.Azure.Devices;
-using Newtonsoft.Json;
+﻿using System.Text.Json;
+using Gas.Globals;
+using Microsoft.Azure.Devices;
+
 
 namespace Gas.Services.Devices;
 
@@ -28,7 +30,7 @@ public class DeviceService : IDeviceService
             return;
         }
 
-        var dataString = JsonConvert.SerializeObject(data);
+        var dataString = JsonSerializer.Serialize(data, Json.Options);
         var typeString = type == DataType.Tags ? "tags" : "desired";
 
         var twin = await registryManager.GetTwinAsync(deviceId);

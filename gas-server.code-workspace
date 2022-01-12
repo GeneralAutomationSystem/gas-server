@@ -1,8 +1,8 @@
 {
 	"folders": [
 		{
-			"name": "Common",
-			"path": "Common"
+			"name": "Globals",
+			"path": "Globals"
 		},
 		{
 			"name": "CosmosService",
@@ -11,6 +11,10 @@
 		{
 			"name": "DeviceService",
 			"path": "DeviceService"
+		},
+		{
+			"name": "Common",
+			"path": "Common"
 		},
 		{
 			"name": "WebApp",
