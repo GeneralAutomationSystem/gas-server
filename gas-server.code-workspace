@@ -23,6 +23,9 @@
 		{
 			"name": "Solution",
 			"path": "Solution"
+		},
+		{
+			"path": "Functions"
 		}
 	],
 	"extensions": {
@@ -35,6 +38,7 @@
 		]
 	},
 	"settings": {
-		"omnisharp.defaultLaunchSolution": ""
+		"omnisharp.defaultLaunchSolution": "",
+		"debug.internalConsoleOptions": "neverOpen"
 	}
 }
