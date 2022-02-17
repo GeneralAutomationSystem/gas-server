@@ -8,9 +8,9 @@ builder.Configuration.AddJsonFile("local.settings.json", false, true);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<ICosmosService>(new CosmosService(
-    builder.Configuration.GetConnectionString("CosmosDb"),
-    builder.Configuration.GetValue<string>("CosmosDb:DatabaseName"),
-    (b) => b.AddContainer(builder.Configuration.GetValue<string>("CosmosDb:UserContainer"))));
+    builder.Configuration.GetConnectionString("Cosmos"),
+    builder.Configuration.GetValue<string>("Cosmos:DatabaseName"),
+    (b) => b.AddContainer(builder.Configuration.GetValue<string>("Cosmos:UserContainer"))));
 builder.Services.AddSingleton<IDeviceService>(new DeviceService(builder.Configuration.GetConnectionString("IotHub")));
 
 
