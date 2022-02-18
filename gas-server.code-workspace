@@ -17,15 +17,16 @@
 			"path": "Common"
 		},
 		{
+			"name": "Functions",
+			"path": "Functions"
+		},
+		{
 			"name": "WebApp",
 			"path": "WebApp"
 		},
 		{
 			"name": "Solution",
 			"path": "Solution"
-		},
-		{
-			"path": "Functions"
 		}
 	],
 	"extensions": {
