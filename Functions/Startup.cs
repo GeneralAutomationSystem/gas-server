@@ -1,4 +1,6 @@
-using Gas.Services.Cosmos;
+using System;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,10 +13,11 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var config = builder.GetContext().Configuration;
-
-        builder.Services.AddSingleton<ICosmosService>(new CosmosService(
-            config.GetConnectionString("Cosmos"),
-            config.GetValue<string>("DatabaseName"),
-            (b) => b.AddContainer(config.GetValue<string>("ReportsContainer"))));
+        builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString("Cosmos"))
+                                        .WithSerializerOptions(new CosmosSerializationOptions
+                                        {
+                                            PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                                        })
+                                        .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32));
     }
 }

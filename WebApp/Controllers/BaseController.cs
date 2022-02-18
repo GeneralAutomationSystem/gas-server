@@ -4,7 +4,6 @@ using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
-using Newtonsoft.Json;
 
 namespace Gas.WebApp.Controllers;
 
@@ -26,7 +25,7 @@ public class BaseController : Controller
     {
         var model = new T()
         {
-            UserDevices = (await dbService.ReadItemAsync<Common.Records.User>("users", userPrincipalName, new PartitionKey(userPrincipalName))).Devices,
+            UserDevices = (await dbService.ReadItemAsync<Common.Items.User>("users", userPrincipalName, new PartitionKey(userPrincipalName))).Devices,
         };
         model.SelectedDevice = model?.UserDevices?.FirstOrDefault(d => d.Id == selectedDeviceId);
         return model;

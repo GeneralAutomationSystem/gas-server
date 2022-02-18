@@ -1,4 +1,4 @@
-using Gas.Common.Records;
+using Gas.Common.Items;
 
 namespace Gas.WebApp.Models;
 

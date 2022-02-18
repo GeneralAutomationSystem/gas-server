@@ -21,7 +21,7 @@ public class HomeController : Controller
     {
         var model = new BaseModel
         {
-            UserDevices = (await dbService.ReadItemAsync<Common.Records.User>("users", "pepa", new PartitionKey("pepa"))).Devices,
+            UserDevices = (await dbService.ReadItemAsync<Common.Items.User>("users", "pepa", new PartitionKey("pepa"))).Devices,
         };
         return View(model);
     }
