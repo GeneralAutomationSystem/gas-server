@@ -1,8 +1,8 @@
 using System;
-using System.Text.Json;
 using System.Threading;
 using Azure.Messaging.EventHubs;
 using Gas.Common.Items;
+using Gas.Common.Static;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Configuration;
@@ -13,10 +13,6 @@ namespace Gas.Functions;
 public class ReportFunction
 {
     private readonly Container container;
-    private static readonly JsonSerializerOptions options = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-    };
 
     public ReportFunction(CosmosClient cosmosClient, IConfiguration config)
     {
@@ -26,7 +22,7 @@ public class ReportFunction
     [FunctionName("ReportFunction")]
     public void Run([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData message, ILogger log, CancellationToken cancelToken)
     {
-        var item = message.EventBody.ToObjectFromJson<Report>(options);
+        var item = message.EventBody.ToObjectFromJson<Report>(JsonSerializerOptions.Default);
 
         item.DeviceId = (string)message.SystemProperties["iothub-connection-device-id"];
         item.Id = Guid.NewGuid().ToString();
