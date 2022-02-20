@@ -21,10 +21,14 @@ public class ReportFunction
     [FunctionName("ReportFunction")]
     public void Run([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData message, ILogger log, CancellationToken cancelToken)
     {
-        var item = message.EventBody.ToObjectFromJson<Report>(JsonOptions.DefaultSerialization);
+        var data = message.EventBody.ToObjectFromJson<dynamic>(JsonOptions.DefaultSerialization);
 
-        item.DeviceId = (string)message.SystemProperties["iothub-connection-device-id"];
-        item.Id = Guid.NewGuid().ToString();
+        var item = new Report
+        {
+            Id = Guid.NewGuid().ToString(),
+            DeviceId = (string)message.SystemProperties["iothub-connection-device-id"],
+            Data = data,
+        };
 
         log.LogInformation($"Creating new report with id: {item.Id}, deviceId: {item.DeviceId}");
         container.CreateItemAsync(item, new PartitionKey(item.DeviceId), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
