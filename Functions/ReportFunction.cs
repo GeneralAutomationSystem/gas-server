@@ -23,14 +23,14 @@ public class ReportFunction
     {
         var data = message.EventBody.ToObjectFromJson<dynamic>(JsonOptions.DefaultSerialization);
 
-        var item = new Report
+        var item = new DeviceReport
         {
-            Id = Guid.NewGuid().ToString(),
-            DeviceId = (string)message.SystemProperties["iothub-connection-device-id"],
+            Id = (string)message.SystemProperties["iothub-connection-device-id"],
+            Date = DateTime.UtcNow,
             Data = data,
         };
 
-        log.LogInformation($"Creating new report with id: {item.Id}, deviceId: {item.DeviceId}");
-        container.CreateItemAsync(item, new PartitionKey(item.DeviceId), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
+        log.LogInformation($"Creating new report with id: {item.Id}");
+        container.CreateItemAsync(item, new PartitionKey(item.Id), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
     }
 }
