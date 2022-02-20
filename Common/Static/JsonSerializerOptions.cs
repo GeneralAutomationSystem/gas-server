@@ -1,11 +1,10 @@
-using System.Reflection.Metadata;
 using System.Text.Json;
 
 namespace Gas.Common.Static;
 
-public static class JsonSerializerOptions
+public static class JsonOptions
 {
-    public static readonly System.Text.Json.JsonSerializerOptions Default = new()
+    public static readonly JsonSerializerOptions DefaultSerialization = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };

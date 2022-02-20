@@ -1,16 +1,17 @@
 using System.Text.Json;
 using Gas.Common.Models.Device;
-using Gas.Services.Cosmos;
+using Gas.Common.Static;
 using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 
 namespace Gas.WebApp.Controllers;
 
 [Route("Device/{id}/Schedule")]
 public class DeviceScheduleController : BaseController
 {
-    public DeviceScheduleController(ILogger<DeviceScheduleController> logger, ICosmosService dbService, IDeviceService deviceService) : base(logger, dbService, deviceService) { }
+    public DeviceScheduleController(ILogger<DeviceScheduleController> logger, IConfiguration config, CosmosClient cosmosClient, IDeviceService deviceService) : base(logger, config, cosmosClient, deviceService) { }
 
 
     [HttpGet]
@@ -36,14 +37,14 @@ public class DeviceScheduleController : BaseController
             return RedirectToAction("Index");
         }
 
-        var schedule = JsonSerializer.Deserialize<DeviceSchedule>(model.Schedule, Globals.Json.Options);
+        var schedule = JsonSerializer.Deserialize<DeviceSchedule>(model.Schedule, Common.Static.JsonOptions.DefaultSerialization);
 
         if (schedule == null)
         {
             return RedirectToAction("Index");
         }
         schedule.Transform();
-        await deviceService.UpdateTwinAsync(id, DataType.Desired, schedule, "schedule");
+        await deviceService.UpdateTwinAsync(id, Services.Devices.DataType.Desired, schedule, "schedule");
 
         return RedirectToAction("Index");
     }

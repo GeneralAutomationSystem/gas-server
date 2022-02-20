@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Gas.Globals;
+using Gas.Common.Static;
 using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Shared;
 
@@ -32,7 +32,7 @@ public class DeviceService : IDeviceService
 
 
         var patch = new Twin();
-        var twinData = new TwinCollection(JsonSerializer.Serialize(data, Json.Options));
+        var twinData = new TwinCollection(JsonSerializer.Serialize(data, JsonOptions.DefaultSerialization));
 
         if (type == DataType.Tags)
         {

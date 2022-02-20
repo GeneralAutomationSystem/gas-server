@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using Gas.Services.Cosmos;
+using Gas.Common.Extensions;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -9,19 +9,19 @@ namespace Gas.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> logger;
-    private readonly ICosmosService dbService;
+    private readonly Container container;
 
-    public HomeController(ILogger<HomeController> logger, ICosmosService dbService)
+    public HomeController(ILogger<HomeController> logger, IConfiguration config, CosmosClient cosmosClient)
     {
         this.logger = logger;
-        this.dbService = dbService;
+        container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
     }
 
     public async Task<IActionResult> Index()
     {
         var model = new BaseModel
         {
-            UserDevices = (await dbService.ReadItemAsync<Common.Items.User>("users", "pepa", new PartitionKey("pepa"))).Devices,
+            UserDevices = (await container.ReadItemAsync<Common.Items.User>("pepa", new PartitionKey("pepa"))).Resource.Devices,
         };
         return View(model);
     }

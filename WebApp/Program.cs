@@ -1,16 +1,20 @@
-using Gas.Services.Cosmos;
 using Gas.Services.Devices;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
 
 var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
 
 // Add services to the container.
-builder.Configuration.AddJsonFile("local.settings.json", false, true);
+config.AddJsonFile("local.settings.json", false, true);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<ICosmosService>(new CosmosService(
-    builder.Configuration.GetConnectionString("Cosmos"),
-    builder.Configuration.GetValue<string>("Cosmos:DatabaseName"),
-    (b) => b.AddContainer(builder.Configuration.GetValue<string>("Cosmos:UserContainer"))));
+builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString("Cosmos"))
+                                .WithSerializerOptions(new CosmosSerializationOptions
+                                {
+                                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                                })
+                                .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32));
 builder.Services.AddSingleton<IDeviceService>(new DeviceService(builder.Configuration.GetConnectionString("IotHub")));
 
 

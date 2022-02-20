@@ -1,14 +1,14 @@
-using Gas.Services.Cosmos;
 using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 
 namespace Gas.WebApp.Controllers;
 
 [Route("Device/{id}/Status")]
 public class DeviceStatusController : BaseController
 {
-    public DeviceStatusController(ILogger<DeviceStatusController> logger, ICosmosService dbService, IDeviceService deviceService) : base(logger, dbService, deviceService) { }
+    public DeviceStatusController(ILogger<DeviceStatusController> logger, IConfiguration config, CosmosClient cosmosClient, IDeviceService deviceService) : base(logger, config, cosmosClient, deviceService) { }
 
     public async Task<IActionResult> IndexAsync(string id)
     {

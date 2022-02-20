@@ -1,5 +1,5 @@
+using Gas.Common.Extensions;
 using Gas.Common.Models.Device;
-using Gas.Services.Cosmos;
 using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +11,13 @@ namespace Gas.WebApp.Controllers;
 public class BaseController : Controller
 {
     protected readonly ILogger<BaseController> logger;
-    protected readonly ICosmosService dbService;
+    protected readonly Container container;
     protected readonly IDeviceService deviceService;
 
-    public BaseController(ILogger<BaseController> logger, ICosmosService dbService, IDeviceService deviceService)
+    public BaseController(ILogger<BaseController> logger, IConfiguration config, CosmosClient cosmosClient, IDeviceService deviceService)
     {
         this.logger = logger;
-        this.dbService = dbService;
+        container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
         this.deviceService = deviceService;
     }
 
@@ -25,7 +25,7 @@ public class BaseController : Controller
     {
         var model = new T()
         {
-            UserDevices = (await dbService.ReadItemAsync<Common.Items.User>("users", userPrincipalName, new PartitionKey(userPrincipalName))).Devices,
+            UserDevices = (await container.ReadItemAsync<Common.Items.User>(userPrincipalName, new PartitionKey(userPrincipalName))).Resource.Devices,
         };
         model.SelectedDevice = model?.UserDevices?.FirstOrDefault(d => d.Id == selectedDeviceId);
         return model;

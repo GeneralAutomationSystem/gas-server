@@ -3,15 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosService", "..\CosmosService\CosmosService.csproj", "{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "..\WebApp\WebApp.csproj", "{696533CC-BCEF-4F68-A3B6-E111CA18B992}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceService", "..\DeviceService\DeviceService.csproj", "{E2B4A7D6-F45E-44E5-A7D6-E799D5C8AA1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\Common\Common.csproj", "{CF72ADE3-E32C-460A-A8EC-01B82656381A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Globals", "..\Globals\Globals.csproj", "{44AF3087-7A3A-4F40-82EC-CB2C3723A6EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functions", "..\Functions\Functions.csproj", "{93B44526-4731-4EE2-9E18-3619D348A871}"
 EndProject
@@ -24,10 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5AEC2BAF-FC8B-4485-A989-8B59DFBD665F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{696533CC-BCEF-4F68-A3B6-E111CA18B992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{696533CC-BCEF-4F68-A3B6-E111CA18B992}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{696533CC-BCEF-4F68-A3B6-E111CA18B992}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,10 +32,6 @@ Global
 		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF72ADE3-E32C-460A-A8EC-01B82656381A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44AF3087-7A3A-4F40-82EC-CB2C3723A6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44AF3087-7A3A-4F40-82EC-CB2C3723A6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44AF3087-7A3A-4F40-82EC-CB2C3723A6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44AF3087-7A3A-4F40-82EC-CB2C3723A6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93B44526-4731-4EE2-9E18-3619D348A871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93B44526-4731-4EE2-9E18-3619D348A871}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B44526-4731-4EE2-9E18-3619D348A871}.Release|Any CPU.ActiveCfg = Release|Any CPU
