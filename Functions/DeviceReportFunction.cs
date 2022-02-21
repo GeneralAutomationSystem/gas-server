@@ -36,6 +36,6 @@ public class DeviceReportFunction
         await JsonSerializer.SerializeAsync(itemStream, item, JsonOptions.DefaultSerialization, cancelToken);
 
         log.LogInformation($"Creating new report with id: {item.Id}");
-        await container.CreateItemStreamAsync(itemStream, new PartitionKey(item.Id), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
+        await container.CreateItemStreamAsync(itemStream, new PartitionKey(item.DeviceId), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
     }
 }
