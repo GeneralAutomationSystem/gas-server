@@ -26,8 +26,9 @@ public class DeviceReportFunction
 
         var item = new DeviceReport
         {
-            Id = (string)message.SystemProperties["iothub-connection-device-id"],
-            Date = DateTime.UtcNow,
+            Id = Guid.NewGuid().ToString(),
+            DeviceId = (string)message.SystemProperties["iothub-connection-device-id"],
+            ProcessedDate = DateTime.UtcNow,
             Data = data,
         };
 
