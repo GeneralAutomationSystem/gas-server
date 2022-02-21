@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Azure.Messaging.EventHubs;
 using Gas.Common.Extensions;
 using Gas.Common.Items;
@@ -9,17 +10,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Gas.Functions;
 
-public class ReportFunction
+public class DeviceReportFunction
 {
     private readonly Container container;
 
-    public ReportFunction(IConfiguration config, CosmosClient cosmosClient)
+    public DeviceReportFunction(IConfiguration config, CosmosClient cosmosClient)
     {
         container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetReportContainerId());
     }
 
-    [FunctionName("ReportFunction")]
-    public void Run([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData message, ILogger log, CancellationToken cancelToken)
+    [FunctionName("DeviceReportFunction")]
+    public async Task RunAsync([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData message, ILogger log, CancellationToken cancelToken)
     {
         var data = message.EventBody.ToObjectFromJson<dynamic>(JsonOptions.DefaultSerialization);
 
@@ -30,7 +31,10 @@ public class ReportFunction
             Data = data,
         };
 
+        var itemStream = new MemoryStream();
+        await JsonSerializer.SerializeAsync(itemStream, item, JsonOptions.DefaultSerialization, cancelToken);
+
         log.LogInformation($"Creating new report with id: {item.Id}");
-        container.CreateItemAsync(item, new PartitionKey(item.Id), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
+        await container.CreateItemStreamAsync(itemStream, new PartitionKey(item.Id), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
     }
 }
