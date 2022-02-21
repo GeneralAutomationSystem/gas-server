@@ -14,7 +14,8 @@ builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString
                                 {
                                     PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
                                 })
-                                .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32));
+                                .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32)
+                                .Build());
 builder.Services.AddSingleton<IDeviceService>(new DeviceService(builder.Configuration.GetConnectionString("IotHub")));
 
 

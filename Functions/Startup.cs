@@ -16,8 +16,9 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString("Cosmos"))
                                         .WithSerializerOptions(new CosmosSerializationOptions
                                         {
-                                            PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                                            PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase,
                                         })
-                                        .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32));
+                                        .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32)
+                                        .Build());
     }
 }
