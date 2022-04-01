@@ -1,14 +1,18 @@
-using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Devices;
 
 namespace Gas.WebApp.Controllers;
 
 [Route("Device/{id}/Status")]
 public class DeviceStatusController : BaseController
 {
-    public DeviceStatusController(ILogger<DeviceStatusController> logger, IConfiguration config, CosmosClient cosmosClient, IDeviceService deviceService) : base(logger, config, cosmosClient, deviceService) { }
+    private readonly RegistryManager registryManager;
+    public DeviceStatusController(ILogger<DeviceStatusController> logger, IConfiguration config, CosmosClient cosmosClient, RegistryManager registryManager) : base(logger, config, cosmosClient)
+    {
+        this.registryManager = registryManager;
+    }
 
     public async Task<IActionResult> IndexAsync(string id)
     {
@@ -19,7 +23,7 @@ public class DeviceStatusController : BaseController
             return RedirectToAction("Index", "DeviceSelect");
         }
 
-        model.Twin = await deviceService.GetTwinAsync(id);
+        model.Twin = (await registryManager.GetTwinAsync(id)).ToJson();
 
         return View(model);
     }

@@ -1,6 +1,6 @@
-using Gas.Services.Devices;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.Azure.Devices;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -16,7 +16,7 @@ builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString
                                 })
                                 .WithThrottlingRetryOptions(TimeSpan.FromMinutes(1), 32)
                                 .Build());
-builder.Services.AddSingleton<IDeviceService>(new DeviceService(builder.Configuration.GetConnectionString("IotHub")));
+builder.Services.AddSingleton(RegistryManager.CreateFromConnectionString(builder.Configuration.GetConnectionString("IotHub")));
 
 
 var app = builder.Build();

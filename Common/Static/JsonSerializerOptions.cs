@@ -6,6 +6,6 @@ public static class JsonOptions
 {
     public static readonly JsonSerializerOptions DefaultSerialization = new()
     {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 }

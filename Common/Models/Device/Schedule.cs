@@ -3,7 +3,7 @@
 public class DeviceSchedule
 {
     public List<Interval> Intervals { get; set; } = new();
-    public int IntervalMax { get; set; }
+    public int Period { get; set; }
 
     public void Transform()
     {
@@ -15,7 +15,7 @@ public class DeviceSchedule
         var tempIntervals = new List<Interval>();
         foreach (var interval in Intervals)
         {
-            interval.Trim(0, IntervalMax);
+            interval.Trim(0, Period);
 
             if (interval.Size > 0)
             {
@@ -24,7 +24,7 @@ public class DeviceSchedule
             else if (interval.Size < 0)
             {
                 tempIntervals.Add(interval.ZeroEnd());
-                tempIntervals.Add(interval.BeginMax(IntervalMax));
+                tempIntervals.Add(interval.StartMax(Period));
             }
             else
             {
@@ -38,7 +38,7 @@ public class DeviceSchedule
             return;
         }
 
-        tempIntervals.Sort((a, b) => a.Begin - b.Begin);
+        tempIntervals.Sort((a, b) => a.Start - b.Start);
 
 
         Intervals = tempIntervals.Take(1).ToList();
@@ -46,7 +46,7 @@ public class DeviceSchedule
         foreach (var mergingInterval in tempIntervals.Skip(1))
         {
             var last = Intervals.Last();
-            if (mergingInterval.Begin <= last.End)
+            if (mergingInterval.Start <= last.End)
             {
                 last.End = Math.Max(last.End, mergingInterval.End);
             }

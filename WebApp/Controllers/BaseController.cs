@@ -1,6 +1,5 @@
 using Gas.Common.Extensions;
 using Gas.Common.Models.Device;
-using Gas.Services.Devices;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -12,13 +11,11 @@ public class BaseController : Controller
 {
     protected readonly ILogger<BaseController> logger;
     protected readonly Container container;
-    protected readonly IDeviceService deviceService;
 
-    public BaseController(ILogger<BaseController> logger, IConfiguration config, CosmosClient cosmosClient, IDeviceService deviceService)
+    public BaseController(ILogger<BaseController> logger, IConfiguration config, CosmosClient cosmosClient)
     {
         this.logger = logger;
         container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
-        this.deviceService = deviceService;
     }
 
     protected async Task<T?> NewBaseModel<T>(string userPrincipalName, string? selectedDeviceId) where T : BaseModel, new()

@@ -6,7 +6,140 @@
 <div class="text-center">
     <h1 class="display-4">Schedule</h1>
     <form method="post" asp-controller="DeviceSchedule" asp-action="Index" asp-route-id="@Model.SelectedDevice.Id">
-        <textarea class="form-control" name="schedule" rows="15"></textarea>
-        <button type="submit" class="btn btn-primary mb-3">Submit</button>
+        <div class="row">
+            <div class="col-10">
+                <div class="input-group mb-2">
+                    <span class="input-group-text">Period</span>
+                    @Html.DropDownListFor(m => m.Period, Model.Periods, new {@class="form-select"})
+                </div>
+            </div>
+            <div class="col-2">
+                <input type="button" class="from-control btn btn-primary" style="width:6rem" value="Add"
+                    onclick="addInterval()" />
+            </div>
+        </div>
+        <div id="intervals">
+            @foreach (var (key, value) in Model.Intervals)
+            {
+                <div class="row">
+                    <div class="col-5">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">From</span>
+                            @Html.DropDownListFor(m => m.Intervals[key].StartDay, Model.DaysInWeek, new
+                        {@class="form-select"})
+                            <input class="form-control" type="time" name="Intervals[@key].StartTime"
+                            value="@Model.Intervals[key].StartTime" step="1" />
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">To</span>
+                            @Html.DropDownListFor(m => m.Intervals[key].EndDay, Model.DaysInWeek, new
+                        {@class="form-select"})
+                            <input class="form-control" type="time" name="Intervals[@key].EndTime"
+                            value="@Model.Intervals[key].EndTime" step="1" />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <input type="button" class="from-control btn btn-danger" style="width:6rem" value="Remove"
+                        onclick="removeInterval(this.parentElement.parentElement)" />
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-10">
+            </div>
+            <div class="col-2">
+                <input class="btn btn-success" type="submit" style="width:6rem" value="Save" />
+            </div>
+        </div>
     </form>
 </div>
+
+<script>
+    var idx = @Model.Intervals.Count();
+    var intervals = document.getElementById("intervals");
+
+    function getIntervalName(i, property) {
+        return "Intervals[" + i + "]." + property;
+    }
+
+    function removeInterval(interval) {
+        intervals.removeChild(interval);
+    }
+
+    function addInterval() {
+        var daysHtml = '<option value="0" selected >Monday</option> \
+                  <option value="1">Tuesday</option> \
+                  <option value="2">Wednesday</option> \
+                  <option value="3">Thursday</option> \
+                  <option value="4">Friday</option> \
+                  <option value="5">Saturday</option> \
+                  <option value="6">Sunday</option>';
+
+        var row = document.createElement("div");
+        row.setAttribute("class", "row");
+
+        var col = document.createElement("div");
+        col.setAttribute("class", "col-5");
+
+        var group = document.createElement("div");
+        group.setAttribute("class", "input-group mb-2");
+
+        var span = document.createElement("span");
+        span.setAttribute("class", "input-group-text");
+        span.innerText = "From";
+
+        var day = document.createElement("select");
+        day.setAttribute("name", getIntervalName(idx, "StartDay"));
+        day.setAttribute("class", "form-select");
+        day.innerHTML = daysHtml;
+
+        var time = document.createElement("input");
+        time.setAttribute("name", getIntervalName(idx, "StartTime"));
+        time.setAttribute("class", "form-control");
+        time.setAttribute("type", "time");
+        time.setAttribute("value", "00:00:00");
+        time.setAttribute("step", 1);
+
+        group.appendChild(span);
+        group.appendChild(day);
+        group.appendChild(time);
+        col.appendChild(group);
+        row.appendChild(col);
+
+        var col = document.createElement("div");
+        col.setAttribute("class", "col-5");
+
+        var group = document.createElement("div");
+        group.setAttribute("class", "input-group mb-2");
+
+        var span = document.createElement("span");
+        span.setAttribute("class", "input-group-text");
+        span.innerText = "To";
+
+        var day = day.cloneNode(true);
+        day.setAttribute("name", getIntervalName(idx, "EndDay"));
+
+        var time = time.cloneNode();
+        time.setAttribute("name", getIntervalName(idx, "EndTime"));
+
+        group.appendChild(span);
+        group.appendChild(day);
+        group.appendChild(time);
+        col.appendChild(group);
+        row.appendChild(col);
+
+
+        var col = document.createElement("div");
+        col.setAttribute("class", "col-2");
+        col.innerHTML = '<input type="button" class="from-control btn btn-danger" style="width:6rem" value="Remove" onclick="removeInterval(this.parentElement.parentElement)"/>';
+
+        row.appendChild(col);
+
+        intervals.appendChild(row);
+
+        idx++;
+    }
+</script>

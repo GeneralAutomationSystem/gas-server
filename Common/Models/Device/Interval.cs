@@ -5,36 +5,36 @@ namespace Gas.Common.Models.Device;
 
 public class Interval
 {
-    public int Begin { get; set; }
+    public int Start { get; set; }
     public int End { get; set; }
 
     [JsonIgnore]
     public int Size
     {
-        get { return End - Begin; }
+        get { return End - Start; }
     }
 
     public Interval ZeroEnd()
     {
         return new Interval
         {
-            Begin = 0,
+            Start = 0,
             End = End,
         };
     }
 
-    public Interval BeginMax(int max)
+    public Interval StartMax(int max)
     {
         return new Interval
         {
-            Begin = Begin,
+            Start = Start,
             End = max,
         };
     }
 
     public void Trim(int min, int max)
     {
-        Begin = TrimInt(Begin, min, max);
+        Start = TrimInt(Start, min, max);
         End = TrimInt(End, min, max);
     }
 
