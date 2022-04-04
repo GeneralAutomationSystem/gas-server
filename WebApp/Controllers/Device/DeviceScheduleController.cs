@@ -72,9 +72,12 @@ public class DeviceScheduleController : BaseController
         var twin = await registryManager.GetTwinAsync(id);
         var desired = JsonSerializer.Deserialize<Desired>(twin?.Properties?.Desired.ToJson(), Common.Static.JsonOptions.DefaultSerialization);
         var schedules = desired?.Schedules?.ToArray();
-        var schedule = new DeviceSchedule();
+        var schedule = new DeviceSchedule
+        {
+            PinNumber = schedules[0].PinNumber,
+            Period = model.Period.Value
+        };
 
-        schedule.Period = model.Period.Value;
         foreach (var (key, value) in model.Intervals)
         {
             schedule.Intervals.Add(new Common.Models.Device.Interval

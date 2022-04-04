@@ -2,6 +2,7 @@
 
 public class DeviceSchedule
 {
+    public int PinNumber { get; set; }
     public List<Interval> Intervals { get; set; } = new();
     public int Period { get; set; }
 
