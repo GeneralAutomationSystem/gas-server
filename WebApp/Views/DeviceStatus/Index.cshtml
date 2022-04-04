@@ -5,5 +5,34 @@
 
 <div class="text-center">
     <h1 class="display-4">Status</h1>
-    <textarea class="form-control" rows="15">@Model?.Twin</textarea>
+    <div>
+        <canvas id="systemTemperature" width="100%" height="100%"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById("systemTemperature");
+        const systemTemperature = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    data: [
+                    @foreach (var (x,y) in Model.SystemTemperatures)
+                    {
+                        <text>
+                        { x: '@x', y: @y },
+                        </text>
+                    }
+                    ]
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 </div>

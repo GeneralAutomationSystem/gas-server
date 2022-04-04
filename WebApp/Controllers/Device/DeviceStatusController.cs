@@ -1,3 +1,4 @@
+using Gas.Common.Extensions;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -8,9 +9,11 @@ namespace Gas.WebApp.Controllers;
 [Route("Device/{id}/Status")]
 public class DeviceStatusController : BaseController
 {
+    private readonly Container reportContainer;
     private readonly RegistryManager registryManager;
     public DeviceStatusController(ILogger<DeviceStatusController> logger, IConfiguration config, CosmosClient cosmosClient, RegistryManager registryManager) : base(logger, config, cosmosClient)
     {
+        reportContainer = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetReportContainerId());
         this.registryManager = registryManager;
     }
 
@@ -23,7 +26,13 @@ public class DeviceStatusController : BaseController
             return RedirectToAction("Index", "DeviceSelect");
         }
 
-        model.Twin = (await registryManager.GetTwinAsync(id)).ToJson();
+        var systemTemperatures = new List<(string, int)>();
+        for (var i = 0; i < 1000; i++)
+        {
+            systemTemperatures.Add((i.ToString(), i));
+        }
+
+        model.SystemTemperatures = systemTemperatures;
 
         return View(model);
     }
@@ -38,7 +47,6 @@ public class DeviceStatusController : BaseController
             return RedirectToAction("Index", "DeviceSelect");
         }
 
-        model.Twin = "data";
 
         return View("Index", model);
     }
