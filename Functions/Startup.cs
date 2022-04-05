@@ -13,7 +13,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var config = builder.GetContext().Configuration;
-        builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString("Cosmos"))
+        builder.Services.AddSingleton(new CosmosClientBuilder(config.GetValue<string>("CosmosConnectionString"))
                                         .WithSerializerOptions(new CosmosSerializationOptions
                                         {
                                             PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase,
