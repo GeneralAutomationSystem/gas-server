@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Azure.Messaging.EventHubs;
 using Gas.Common.Extensions;
 using Gas.Common.Items;
@@ -20,22 +19,20 @@ public class DeviceReportFunction
     }
 
     [FunctionName("DeviceReportFunction")]
-    public async Task RunAsync([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData message, ILogger log, CancellationToken cancelToken)
+    public async Task RunAsync([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] IEnumerable<EventData> messages, ILogger log, CancellationToken cancelToken)
     {
-        var data = message.EventBody.ToObjectFromJson<dynamic>(JsonOptions.DefaultSerialization);
-
-        var item = new DeviceReport
+        var tasks = new List<Task>();
+        foreach (var message in messages)
         {
-            Id = Guid.NewGuid().ToString(),
-            DeviceId = (string)message.SystemProperties["iothub-connection-device-id"],
-            ProcessedDate = DateTime.UtcNow,
-            Data = data,
-        };
+            var item = message.EventBody.ToObjectFromJson<DeviceReport>(JsonOptions.DefaultSerialization);
 
-        var itemStream = new MemoryStream();
-        await JsonSerializer.SerializeAsync(itemStream, item, JsonOptions.DefaultSerialization, cancelToken);
+            item.Id = Guid.NewGuid().ToString();
+            item.DeviceId = (string)message.SystemProperties["iothub-connection-device-id"];
+            item.ProcessedDate = DateTime.UtcNow;
 
-        log.LogInformation($"Creating new report with id: {item.Id}");
-        await container.CreateItemStreamAsync(itemStream, new PartitionKey(item.DeviceId), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken);
+            log.LogInformation($"Creating new report with id: {item.Id}");
+            tasks.Add(container.CreateItemAsync(item, new PartitionKey(item.DeviceId), new ItemRequestOptions { EnableContentResponseOnWrite = false }, cancelToken));
+        }
+        await Task.WhenAll(tasks);
     }
 }
