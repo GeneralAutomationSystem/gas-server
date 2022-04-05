@@ -19,7 +19,7 @@ public class DeviceReportFunction
     }
 
     [FunctionName("DeviceReportFunction")]
-    public async Task RunAsync([EventHubTrigger("%EventHubName%", Connection = "EventHubConnection")] EventData[] messages, ILogger log, CancellationToken cancelToken)
+    public async Task RunAsync([EventHubTrigger("%EventHubName%", Connection = "EventHubConnectionString")] EventData[] messages, ILogger log, CancellationToken cancelToken)
     {
         var tasks = new List<Task>();
         foreach (var message in messages)
