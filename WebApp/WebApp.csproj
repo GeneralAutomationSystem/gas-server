@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Adamijak.Azure.Cosmos.Extensions" Version="0.1.0" />
     <PackageReference Include="Microsoft.Azure.Devices" Version="1.37.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.24.0" />
   </ItemGroup>

@@ -22,17 +22,16 @@
                 </button>
                 <div class="collapse navbar-collapse" id="nav-items">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area=""
-                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceStatus")"
-                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Status</a>
-                        </li>
                         @if (Model.SelectedDevice == null)
                         {
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Device")">Status</a></li>
                             <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Device")">Schedule</a></li>
                         }
                         else
                         {
+                            <li class="nav-item"><a class="nav-link"
+                                href="@Url.Action("Index", "DeviceStatus", new {deviceId = Model.SelectedDevice.Id})">Status</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="scheduleMenu" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">Schedule</a>
@@ -57,8 +56,9 @@
                         <ul class="dropdown-menu" aria-labelledby="deviceSelect">
                             @foreach (var device in Model.UserDevices)
                             {
-                                <li><a class="dropdown-item" asp-area="" asp-controller="DeviceStatus" asp-action="Index"
-                                    asp-route-id="@device.Id">@device.Name</a></li>
+                                <li><a class="dropdown-item"
+                                    href="@Url.Action("Index", "DeviceStatus", new {deviceId = device.Id})">@device.Name</a>
+                                </li>
                             }
                         </ul>
                     </div>

@@ -2,5 +2,6 @@ namespace Gas.WebApp.Models;
 
 public class StatusModel : BaseModel
 {
-    public IEnumerable<(string, int)>? SystemTemperatures { get; set; }
+    public List<(DateTime, int)> Rssis { get; set; } = new();
+    public List<(DateTime, int)> SystemTemperatures { get; set; } = new();
 }

@@ -1,4 +1,7 @@
+using System.ComponentModel.Design;
+using Adamijak.Azure.Cosmos.Extensions;
 using Gas.Common.Extensions;
+using Gas.Common.Items;
 using Gas.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -6,7 +9,7 @@ using Microsoft.Azure.Devices;
 
 namespace Gas.WebApp.Controllers;
 
-[Route("Device/{id}/Status")]
+[Route("Device/{deviceId}/Status")]
 public class DeviceStatusController : BaseController
 {
     private readonly Container reportContainer;
@@ -17,37 +20,24 @@ public class DeviceStatusController : BaseController
         this.registryManager = registryManager;
     }
 
-    public async Task<IActionResult> IndexAsync(string id)
+    public async Task<IActionResult> IndexAsync(string deviceId)
     {
-        var model = await NewBaseModel<StatusModel>("pepa", id);
+        var model = await NewBaseModel<StatusModel>("pepa", deviceId);
 
-        if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(id))
+        if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(deviceId))
         {
             return RedirectToAction("Index", "DeviceSelect");
         }
 
-        var systemTemperatures = new List<(string, int)>();
-        for (var i = 0; i < 1000; i++)
-        {
-            systemTemperatures.Add((i.ToString(), i));
-        }
+        var query = new QueryDefinition("SELECT * FROM c where c.deviceId = @deviceId and c.dateTime > @date")
+            .WithParameter("@deviceId", deviceId)
+            .WithParameter("@date", DateTime.UtcNow.AddDays(-7));
 
-        model.SystemTemperatures = systemTemperatures;
+        var reports = await reportContainer.GetItemsAsync<DeviceReport>(query);
+
+        model.SystemTemperatures = reports.Select(r => (r.DateTime, r.SystemTemperature0)).ToList();
+        model.Rssis = reports.Select(r => (r.DateTime, r.Rssi)).ToList();
 
         return View(model);
-    }
-
-    [HttpGet("[action]")]
-    public async Task<IActionResult> DataAsync(string id)
-    {
-        var model = await NewBaseModel<StatusModel>("pepa", id);
-
-        if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(id))
-        {
-            return RedirectToAction("Index", "DeviceSelect");
-        }
-
-
-        return View("Index", model);
     }
 }
