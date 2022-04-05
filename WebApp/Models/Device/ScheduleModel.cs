@@ -6,8 +6,8 @@ namespace Gas.WebApp.Models;
 
 public class ScheduleModel : BaseModel
 {
-    public int? Period { get; set; }
-    public Dictionary<string, Interval>? Intervals { get; set; }
+    public int Period { get; set; } = 60;
+    public Dictionary<string, Interval> Intervals { get; set; } = new();
     public readonly List<SelectListItem> DaysInWeek = new()
     {
         new SelectListItem("Monday", "0"),

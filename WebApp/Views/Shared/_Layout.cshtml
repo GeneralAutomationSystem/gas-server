@@ -27,18 +27,28 @@
                                 asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceStatus")"
                                 asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Status</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area=""
-                                asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSchedule")"
-                                asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Schedule</a>
-                        </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link" asp-area=""
-                            asp-controller="@(Model.SelectedDevice == null ? "Device" : "DeviceSettings")"
-                            asp-action="Index" asp-route-id="@Model.SelectedDevice?.Id">Settings</a>
-                            </li> *@
+                        @if (Model.SelectedDevice == null)
+                        {
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Device")">Schedule</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="scheduleMenu" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">Schedule</a>
+                                <ul class="dropdown-menu" aria-labelledby="scheduleMenu">
+                                    @foreach (var scheduleId in Enumerable.Range(0, Model.SelectedDevice.SchedulesCount))
+                                    {
+                                        <li><a class="dropdown-item"
+                                        href="@Url.Action("Index", "DeviceSchedule", new {deviceId = Model.SelectedDevice.Id, scheduleId})">Schedule
+                                                @scheduleId</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
                     </ul>
-                    <div class="dropdown me-2">
+                    <div class=" dropdown me-2">
                         <button class="btn btn-secondary dropdown-toggle" id="deviceSelect" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             @(Model.SelectedDevice?.Id == null ? "Devices" : Model.SelectedDevice.Name)
