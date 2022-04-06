@@ -24,8 +24,17 @@ public class DeviceSchedule
             }
             else if (interval.Size < 0)
             {
-                tempIntervals.Add(interval.ZeroEnd());
-                tempIntervals.Add(interval.StartMax(Period));
+                var intervalToAdd = interval.ZeroEnd();
+                if (intervalToAdd.Size > 0)
+                {
+                    tempIntervals.Add(intervalToAdd);
+                }
+
+                intervalToAdd = interval.StartMax(Period);
+                if (intervalToAdd.Size > 0)
+                {
+                    tempIntervals.Add(intervalToAdd);
+                }
             }
             else
             {
