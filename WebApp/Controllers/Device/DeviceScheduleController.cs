@@ -26,7 +26,7 @@ public class DeviceScheduleController : BaseController
     [HttpGet]
     public async Task<IActionResult> IndexAsync(string deviceId, int scheduleId)
     {
-        var model = await NewBaseModel<ScheduleModel>("pepa", deviceId);
+        var model = await NewBaseModel<ScheduleModel>(deviceId);
 
         if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(deviceId))
         {

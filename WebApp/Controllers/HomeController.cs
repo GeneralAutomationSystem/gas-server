@@ -6,12 +6,12 @@ using Microsoft.Azure.Cosmos;
 
 namespace Gas.WebApp.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> logger;
     private readonly Container container;
 
-    public HomeController(ILogger<HomeController> logger, IConfiguration config, CosmosClient cosmosClient)
+    public HomeController(ILogger<HomeController> logger, IConfiguration config, CosmosClient cosmosClient) : base(logger, config, cosmosClient)
     {
         this.logger = logger;
         container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
@@ -19,10 +19,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var model = new BaseModel
-        {
-            UserDevices = (await container.ReadItemAsync<Common.Items.User>("pepa", new PartitionKey("pepa"))).Resource.Devices,
-        };
+        var model = await NewBaseModel<ScheduleModel>(null);
         return View(model);
     }
 

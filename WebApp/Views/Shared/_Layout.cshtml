@@ -47,7 +47,8 @@
                             </li>
                         }
                     </ul>
-                    <div class=" dropdown me-2">
+                    <div class="nav-item"><span class="nav-item me-4">@Model.Username</span></div>
+                    <div class="nav-item dropdown me-2">
                         <button class="btn btn-secondary dropdown-toggle" id="deviceSelect" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             @(Model.SelectedDevice?.Id == null ? "Devices" : Model.SelectedDevice.Name)
@@ -62,7 +63,6 @@
                             }
                         </ul>
                     </div>
-                    <a class="btn btn-success" asp-area="" asp-controller="Home" asp-action="Index">Login</a>
                 </div>
             </div>
         </nav>

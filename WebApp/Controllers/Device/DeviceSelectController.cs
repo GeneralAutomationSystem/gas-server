@@ -14,7 +14,7 @@ public class DeviceSelectController : BaseController
 
     public async Task<IActionResult> IndexAsync()
     {
-        var model = await NewBaseModel<BaseModel>("pepa", null);
+        var model = await NewBaseModel<BaseModel>(null);
         return View(model);
     }
 }

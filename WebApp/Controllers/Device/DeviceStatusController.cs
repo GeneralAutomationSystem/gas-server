@@ -22,7 +22,7 @@ public class DeviceStatusController : BaseController
 
     public async Task<IActionResult> IndexAsync(string deviceId)
     {
-        var model = await NewBaseModel<StatusModel>("pepa", deviceId);
+        var model = await NewBaseModel<StatusModel>(deviceId);
 
         if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(deviceId))
         {
