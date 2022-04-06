@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin/Release/net6.0/publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/05adc1bf-31cd-42e3-b5f8-cbec681fcb1f/resourceGroups/gas/providers/Microsoft.Web/sites/gas-web"
+}
