@@ -35,7 +35,7 @@ public class DeviceStatusController : BaseController
 
         var reports = await reportContainer.GetItemsAsync<DeviceReport>(query);
 
-        model.SystemTemperatures = reports.Select(r => (r.DateTime, r.SystemTemperature0)).ToList();
+        model.SystemTemperatures = reports.Select(r => (r.DateTime, (r.SystemTemperature0+r.SystemTemperature1)/2)).ToList();
         model.Rssis = reports.Select(r => (r.DateTime, r.Rssi)).ToList();
 
         return View(model);
