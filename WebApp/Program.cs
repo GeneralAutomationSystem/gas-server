@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 // Add services to the container.
-config.AddJsonFile("local.settings.json", false, true);
+config.AddJsonFile("local.settings.json", true, true);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton(new CosmosClientBuilder(config.GetConnectionString("Cosmos"))
