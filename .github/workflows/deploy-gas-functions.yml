@@ -4,14 +4,13 @@ env:
   AZURE_APP_NAME: 'gas-report'
   DOTNET_VERSION: '6.0.x'
   PROJECT_PATH: './WebApp/WebApp.csproj'
-  TRIGGER_PATH: 'Functions/**'
 
 on:
   push:
     branches:
       - main
     paths:
-      - ${{env.TRIGGER_PATH}}
+      - 'Functions/**'
   workflow_dispatch:
 
 jobs:
