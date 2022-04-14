@@ -1,16 +1,16 @@
-name: Build GAS Functions
+name: Deploy GAS WebApp
 
 env:
-  AZURE_APP_NAME: 'gas-report'
+  AZURE_APP_NAME: 'gas-web'    
   DOTNET_VERSION: '6.0.x'
   PROJECT_PATH: './WebApp/WebApp.csproj'
-  TRIGGER_PATH: 'Functions/**'
+  TRIGGER_PATH: 'WebApp/**'
 
 on:
   push:
     branches:
       - main
-    paths:
+    paths: 
       - ${{env.TRIGGER_PATH}}
   workflow_dispatch:
 
@@ -49,14 +49,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: release
 
-      - name: Deploy to GAS Functions
-        uses: Azure/functions-action@v1.4.4
+      - name: Deploy to GAS WebApp
+        uses: azure/webapps-deploy@v2
         with:
           app-name: ${{env.AZURE_APP_NAME}}
-          publish-profile: ${{ secrets.AZURE_FUNCTIONS_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
