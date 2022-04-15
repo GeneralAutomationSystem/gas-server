@@ -19,7 +19,8 @@ public class HomeController : BaseController
 
     public async Task<IActionResult> Index()
     {
-        var model = await NewBaseModel<ScheduleModel>(null);
+        var model = new BaseModel();
+        await FillBaseModel(model, null);
         return View(model);
     }
 

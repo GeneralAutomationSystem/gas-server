@@ -18,21 +18,17 @@ public class BaseController : Controller
         container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
     }
 
-    protected async Task<T?> NewBaseModel<T>(string? selectedDeviceId) where T : BaseModel, new()
+    protected async Task FillBaseModel(BaseModel model, string? selectedDeviceId)
     {
         var upn = Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"].ElementAtOrDefault(0);
         if (upn == null)
         {
             upn = "null";
         }
-
-        var model = new T()
-        {
-            UserPrincipalName = upn,
-            UserDevices = (await container.ReadItemAsync<Common.Items.User>(upn, new PartitionKey(upn))).Resource.Devices,
-        };
+        
+        model.UserPrincipalName = upn;
+        model.UserDevices = (await container.ReadItemAsync<Common.Items.User>(upn, new PartitionKey(upn))).Resource.Devices;
         model.SelectedDevice = model?.UserDevices?.FirstOrDefault(d => d.Id == selectedDeviceId);
-        return model;
     }
 
     // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

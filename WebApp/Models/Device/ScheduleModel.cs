@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Gas.Common.Models.Device;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gas.WebApp.Models;
 
-public class ScheduleModel : BaseModel
+public class ScheduleModel : BaseModel, IValidatableObject
 {
     public int Period { get; set; } = 60;
     public Dictionary<string, Interval> Intervals { get; set; } = new();
@@ -26,12 +27,41 @@ public class ScheduleModel : BaseModel
         new SelectListItem("1 day", "86400"),
         new SelectListItem("1 week", "604800"),
     };
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Periods.Select(i => i.Value).Contains(Period.ToString())){
+            yield return new ValidationResult("Period has to be 1 minute or 1 hour or 1 day or 1 week");
+        }
+
+        if(Intervals.Values.Any(i => Period <= i.StartInSeconds )){
+            yield return new ValidationResult("Start of interval can not be higher than Period.");
+        }
+
+        if(Intervals.Values.Any(i => Period <= i.EndInSeconds)){
+            yield return new ValidationResult("End of interval can not be higher than Period.");
+        }
+
+        if(Intervals.Values.Any(i => i.StartInSeconds < 0)){
+            yield return new ValidationResult("Start of interval can not be lower than Period.");
+        }
+
+        if(Intervals.Values.Any(i => i.EndInSeconds < 0)){
+            yield return new ValidationResult("End of interval can not be lower than Period.");
+        }
+    }
 }
 
 public class Interval
 {
-    public int? StartDay { get; set; }
-    public string? StartTime { get; set; }
-    public int? EndDay { get; set; }
-    public string? EndTime { get; set; }
+    public int StartDay { get; set; }
+    public string StartTime { get; set; } = "00:00:00";
+    public int EndDay { get; set; }
+    public string EndTime { get; set; } = "00:00:00";
+
+    public int StartInSeconds { get => InSeconds(StartDay, StartTime);}
+
+    public int EndInSeconds {get => InSeconds(EndDay, EndTime);}
+
+    private int InSeconds(int day, string time) => day * 86400 + (int)TimeSpan.Parse(time).TotalSeconds;
 }

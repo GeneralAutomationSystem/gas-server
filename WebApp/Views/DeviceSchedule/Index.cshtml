@@ -3,6 +3,13 @@
     ViewData["Title"] = "Schedule";
 }
 
+@if(!ViewData.ModelState.IsValid){
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    @Html.ValidationSummary()
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+}
+
 <div class="text-center">
     <h1 class="display-4">Schedule</h1>
     <form method="post" asp-controller="DeviceSchedule" asp-action="Index" asp-route-id="@Model.SelectedDevice.Id">

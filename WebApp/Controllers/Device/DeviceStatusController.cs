@@ -22,7 +22,8 @@ public class DeviceStatusController : BaseController
 
     public async Task<IActionResult> IndexAsync(string deviceId)
     {
-        var model = await NewBaseModel<StatusModel>(deviceId);
+        var model = new StatusModel();
+        await FillBaseModel(model, deviceId);
 
         if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(deviceId))
         {

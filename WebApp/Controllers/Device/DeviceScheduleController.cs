@@ -26,7 +26,8 @@ public class DeviceScheduleController : BaseController
     [HttpGet]
     public async Task<IActionResult> IndexAsync(string deviceId, int scheduleId)
     {
-        var model = await NewBaseModel<ScheduleModel>(deviceId);
+        var model = new ScheduleModel();
+        await FillBaseModel(model, deviceId);
 
         if (model?.UserDevices == null || !model.UserDevices.Select(d => d.Id).Contains(deviceId))
         {
@@ -69,11 +70,11 @@ public class DeviceScheduleController : BaseController
     [HttpPost]
     public async Task<IActionResult> IndexAsync(string deviceId, int scheduleId, ScheduleModel model)
     {
-        if (!model.Periods.Select(i => i.Value).Contains(model.Period.ToString()))
-        {
-            return RedirectToAction("Index");
+        await FillBaseModel(model, deviceId);
+        if(!ModelState.IsValid){
+            
+            return View(model); 
         }
-
         var twin = await registryManager.GetTwinAsync(deviceId);
         if (twin?.Properties?.Desired == null)
         {
@@ -94,14 +95,10 @@ public class DeviceScheduleController : BaseController
 
         foreach (var interval in model.Intervals.Values)
         {
-            if (interval.StartDay == null || interval.StartTime == null || interval.EndDay == null || interval.EndTime == null)
-            {
-                continue;
-            }
             schedule.Intervals.Add(new Common.Models.Device.Interval
             {
-                Start = interval.StartDay.Value * 86400 + (int)TimeSpan.Parse(interval.StartTime).TotalSeconds,
-                End = interval.EndDay.Value * 86400 + (int)TimeSpan.Parse(interval.EndTime).TotalSeconds,
+                Start = interval.StartInSeconds,
+                End = interval.EndInSeconds,
             });
         }
         schedule.Transform();
