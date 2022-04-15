@@ -20,30 +20,30 @@
         <div id="intervals">
             @foreach (var (key, value) in Model.Intervals)
             {
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="input-group mb-2">
-                                <span class="input-group-text">From</span>
+                <div class="row">
+                    <div class="col-5">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">From</span>
                             @Html.DropDownListFor(m => m.Intervals[key].StartDay, Model.DaysInWeek, new
                         {@class="form-select"})
-                                <input class="form-control" type="time" name="Intervals[@key].StartTime"
+                            <input class="form-control" type="time" name="Intervals[@key].StartTime"
                             value="@Model.Intervals[key].StartTime" step="1" />
-                            </div>
-                        </div>
-                        <div class="col-5">
-                            <div class="input-group mb-2">
-                                <span class="input-group-text">To</span>
-                            @Html.DropDownListFor(m => m.Intervals[key].EndDay, Model.DaysInWeek, new
-                        {@class="form-select"})
-                                <input class="form-control" type="time" name="Intervals[@key].EndTime"
-                            value="@Model.Intervals[key].EndTime" step="1" />
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <input type="button" class="from-control btn btn-danger" style="width:6rem" value="Remove"
-                        onclick="removeInterval(this.parentElement.parentElement)" />
                         </div>
                     </div>
+                    <div class="col-5">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">To</span>
+                            @Html.DropDownListFor(m => m.Intervals[key].EndDay, Model.DaysInWeek, new
+                        {@class="form-select"})
+                            <input class="form-control" type="time" name="Intervals[@key].EndTime"
+                            value="@Model.Intervals[key].EndTime" step="1" />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <input type="button" class="from-control btn btn-danger" style="width:6rem" value="Remove"
+                        onclick="removeInterval(this.parentElement.parentElement)" />
+                    </div>
+                </div>
             }
         </div>
         <div class="row">
