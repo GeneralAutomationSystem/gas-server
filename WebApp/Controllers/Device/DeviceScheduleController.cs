@@ -54,13 +54,7 @@ public class DeviceScheduleController : BaseController
         var i = 0;
         foreach (var interval in schedule.Intervals)
         {
-            model.Intervals[i.ToString()] = new Models.Interval
-            {
-                StartDay = interval.Start / 86400,
-                StartTime = TimeSpan.FromSeconds(interval.Start).ToString(@"hh\:mm\:ss"),
-                EndDay = interval.End / 86400,
-                EndTime = TimeSpan.FromSeconds(interval.End).ToString(@"hh\:mm\:ss"),
-            };
+            model.Intervals[i.ToString()] = new Models.Interval(interval.Start, interval.End);
             i++;
         }
         return View(model);
@@ -71,9 +65,9 @@ public class DeviceScheduleController : BaseController
     public async Task<IActionResult> IndexAsync(string deviceId, int scheduleId, ScheduleModel model)
     {
         await FillBaseModel(model, deviceId);
-        if(!ModelState.IsValid){
-            
-            return View(model); 
+        if (!ModelState.IsValid)
+        {
+            return View(model);
         }
         var twin = await registryManager.GetTwinAsync(deviceId);
         if (twin?.Properties?.Desired == null)

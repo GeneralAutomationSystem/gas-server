@@ -8,14 +8,7 @@ namespace Gas.WebApp.Controllers;
 
 public class HomeController : BaseController
 {
-    private readonly ILogger<HomeController> logger;
-    private readonly Container container;
-
-    public HomeController(ILogger<HomeController> logger, IConfiguration config, CosmosClient cosmosClient) : base(logger, config, cosmosClient)
-    {
-        this.logger = logger;
-        container = cosmosClient.GetContainer(config.GetDatabaseId(), config.GetUsersContainerId());
-    }
+    public HomeController(ILogger<HomeController> logger, IConfiguration config, CosmosClient cosmosClient) : base(logger, config, cosmosClient) { }
 
     public async Task<IActionResult> Index()
     {
@@ -24,9 +17,9 @@ public class HomeController : BaseController
         return View(model);
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    // public IActionResult Error()
+    // {
+    //     return View(new ErrorModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    // }
 }
