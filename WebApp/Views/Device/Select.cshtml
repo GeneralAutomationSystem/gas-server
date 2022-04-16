@@ -29,7 +29,7 @@
                 @foreach (var device in Model.UserDevices)
                 {
                     <li><a class="dropdown-item"
-                        href="@Url.Action("Index", "DeviceStatus", new {deviceId = device.Id})">@device.Name</a></li>
+                        href="@Url.Action("Status", "Device", new {deviceId = device.Id})">@device.Name</a></li>
                 }
             </ul>
         </div>

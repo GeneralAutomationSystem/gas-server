@@ -24,13 +24,14 @@
                     <ul class="navbar-nav me-auto">
                         @if (Model.SelectedDevice == null)
                         {
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Device")">Status</a></li>
-                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Device")">Schedule</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Select", "Device")">Status</a></li>
+                            <li class="nav-item"><a class="nav-link" href="@Url.Action("Select", "Device")">Schedule</a>
+                            </li>
                         }
                         else
                         {
                             <li class="nav-item"><a class="nav-link"
-                                href="@Url.Action("Index", "DeviceStatus", new {deviceId = Model.SelectedDevice.Id})">Status</a>
+                                href="@Url.Action("Status", "Device", new {deviceId = Model.SelectedDevice.Id})">Status</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="scheduleMenu" role="button"
@@ -39,7 +40,7 @@
                                     @foreach (var scheduleId in Enumerable.Range(0, Model.SelectedDevice.SchedulesCount))
                                     {
                                         <li><a class="dropdown-item"
-                                        href="@Url.Action("Index", "DeviceSchedule", new {deviceId = Model.SelectedDevice.Id, scheduleId})">Schedule
+                                        href="@Url.Action("Schedule", "Device", new {deviceId = Model.SelectedDevice.Id, scheduleId})">Schedule
                                                 @scheduleId</a>
                                         </li>
                                     }
@@ -58,7 +59,7 @@
                             @foreach (var device in Model.UserDevices)
                             {
                                 <li><a class="dropdown-item"
-                                    href="@Url.Action("Index", "DeviceStatus", new {deviceId = device.Id})">@device.Name</a>
+                                    href="@Url.Action("Status", "Device", new {deviceId = device.Id})">@device.Name</a>
                                 </li>
                             }
                         </ul>
