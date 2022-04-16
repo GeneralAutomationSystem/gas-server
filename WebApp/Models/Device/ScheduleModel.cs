@@ -8,7 +8,7 @@ namespace Gas.WebApp.Models;
 public class ScheduleModel : BaseModel, IValidatableObject
 {
     public int Period { get; set; } = 60;
-    public Dictionary<string, Interval> Intervals { get; set; } = new();
+    public List<Interval> Intervals { get; set; } = new();
     public readonly List<SelectListItem> DaysInWeek = new()
     {
         new SelectListItem("Monday", "0"),
@@ -35,22 +35,22 @@ public class ScheduleModel : BaseModel, IValidatableObject
             yield return new ValidationResult("Period has to be 1 minute or 1 hour or 1 day or 1 week");
         }
 
-        if (Intervals.Values.Any(i => Period <= i.StartInSeconds))
+        if (Intervals.Any(i => Period <= i.StartInSeconds))
         {
             yield return new ValidationResult("Start of interval can not be higher than Period.");
         }
 
-        if (Intervals.Values.Any(i => Period <= i.EndInSeconds))
+        if (Intervals.Any(i => Period <= i.EndInSeconds))
         {
             yield return new ValidationResult("End of interval can not be higher than Period.");
         }
 
-        if (Intervals.Values.Any(i => i.StartInSeconds < 0))
+        if (Intervals.Any(i => i.StartInSeconds < 0))
         {
             yield return new ValidationResult("Start of interval can not be lower than Period.");
         }
 
-        if (Intervals.Values.Any(i => i.EndInSeconds < 0))
+        if (Intervals.Any(i => i.EndInSeconds < 0))
         {
             yield return new ValidationResult("End of interval can not be lower than Period.");
         }

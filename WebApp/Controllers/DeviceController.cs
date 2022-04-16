@@ -81,13 +81,8 @@ public class DeviceController : BaseController
         }
 
         model.Period = schedule.Period;
-        model.Intervals = new Dictionary<string, Models.Interval>();
-        var i = 0;
-        foreach (var interval in schedule.Intervals)
-        {
-            model.Intervals[i.ToString()] = new Models.Interval(interval.Start, interval.End);
-            i++;
-        }
+        model.Intervals = schedule.Intervals.Select(i => new Models.Interval(i.Start % model.Period, i.End % model.Period)).ToList();
+
         return View(model);
     }
 
@@ -118,14 +113,12 @@ public class DeviceController : BaseController
             Period = model.Period,
         };
 
-        foreach (var interval in model.Intervals.Values)
+        schedule.Intervals = model.Intervals.Select(i => new Common.Models.Device.Interval
         {
-            schedule.Intervals.Add(new Common.Models.Device.Interval
-            {
-                Start = interval.StartInSeconds,
-                End = interval.EndInSeconds,
-            });
-        }
+            Start = i.StartInSeconds,
+            End = i.EndInSeconds,
+        }).ToList();
+
         schedule.Transform();
 
         schedules[scheduleId] = schedule;
