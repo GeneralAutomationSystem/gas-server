@@ -25,9 +25,9 @@ public class BaseController : Controller
         {
             upn = "null";
         }
-        
+
         model.UserPrincipalName = upn;
-        model.UserDevices = (await container.ReadItemAsync<Common.Items.User>(upn, new PartitionKey(upn))).Resource.Devices;
+        model.UserDevices = (await container.ReadItemAsync<Common.Items.User>(upn, new PartitionKey(upn))).Resource.Devices ?? new();
         model.SelectedDevice = model?.UserDevices?.FirstOrDefault(d => d.Id == selectedDeviceId);
     }
 
