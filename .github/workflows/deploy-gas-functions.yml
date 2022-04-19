@@ -3,7 +3,7 @@ name: Deploy GAS Functions
 env:
   AZURE_APP_NAME: 'gas-report'
   DOTNET_VERSION: '6.0.x'
-  PROJECT_PATH: './WebApp/WebApp.csproj'
+  PROJECT_PATH: './Functions/Functions.csproj'
 
 on:
   push:
