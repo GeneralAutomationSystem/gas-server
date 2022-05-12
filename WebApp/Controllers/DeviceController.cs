@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Adamijak.Azure.Cosmos.Extensions;
 using Gas.Common.Extensions;
+using Gas.Common.Helpers;
 using Gas.Common.Items;
 using Gas.Common.Models.Device;
 using Gas.WebApp.Models;
@@ -47,7 +48,7 @@ public class DeviceController : BaseController
 
         var reports = await reportContainer.GetItemsAsync<DeviceReport>(query);
 
-        model.SystemTemperatures = reports.Select(r => (r.DateTime, (r.SystemTemperature0 + r.SystemTemperature1) / 2)).ToList();
+        model.SystemTemperatures = reports.Select(r => (r.DateTime, Math.Round(TemperatureConverter.ToCelsius((r.SystemTemperature0 + r.SystemTemperature1) / 2), 1))).ToList();
         model.Rssis = reports.Select(r => (r.DateTime, r.Rssi)).ToList();
 
         return View(model);
