@@ -11,12 +11,12 @@ public static class TemperatureConverter
 
     public static double ToCelsius(double voltageLevel)
     {
-        if (voltageLevel < 0 || 4096 <= voltageLevel)
+        if (voltageLevel <= 0 || 4096 <= voltageLevel)
         {
             throw new ArgumentException("Voltage level must be in 12bit resolution.");
         }
 
-        double x = Math.Log(voltageLevel);
+        double x = Math.Log((40960 / voltageLevel) - 10);
 
         return c0 + c1 * x + c2 * Math.Pow(x, 2) + c3 * Math.Pow(x, 3) + c4 * Math.Pow(x, 4) + c5 * Math.Pow(x, 5);
     }
